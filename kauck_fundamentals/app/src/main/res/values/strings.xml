@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">Java2_Fundamentals</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="submitButton">Search Movie</string>
+    <string name="movieHint">Enter A Movie Title Here</string>
 
 </resources>
