@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -30,9 +31,7 @@ import fragments.MasterFragment;
 
 public class MainActivity extends Activity implements MasterFragment.apiSearchWord, MasterFragment.dataDetails {
 
-    final private String TAG = "Fundamentals";
     private ArrayList<Movie> mMovieArrray = new ArrayList<Movie>();
-    private String searchTerm;
     private static final String FILENAME = "movieData.txt";
     private ArrayList<MovieData> mSaveMovie = new ArrayList<MovieData>();
     private JSONArray mJSONMovieArray;
@@ -64,14 +63,12 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
     @Override
     public void searchWord(String movie) {
 
-        searchTerm = movie;
-
         String startingURL = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=tywc7nbpytk9bygpjumc9y8c&q=";
         String endOfURL = "&page_limit=10";
 
         try {
 
-            URL getURLData = new URL(startingURL + searchTerm + endOfURL);
+            URL getURLData = new URL(startingURL + movie + endOfURL);
 
             new GetMovieData().execute(getURLData);
 
@@ -85,33 +82,33 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
     public void noNetworkData(){
 
-        try{
+            try {
 
-            FileInputStream input = openFileInput(FILENAME);
+                FileInputStream input = openFileInput(FILENAME);
 
-            ObjectInputStream stream = new ObjectInputStream(input);
+                ObjectInputStream stream = new ObjectInputStream(input);
 
-            while(input.available() != 0){
+                while (input.available() != 0) {
 
-                mMovieData = (MovieData)stream.readObject();
+                    mMovieData = (MovieData) stream.readObject();
 
-                mSaveMovie.add(mMovieData);
+                    mSaveMovie.add(mMovieData);
 
-                Log.i (TAG, "Testing");
+
+                }
+
+                stream.close();
+
+                MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
+
+                frag.setListAdapter(new SavedListAdapter(getApplicationContext(), mSaveMovie));
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+                Toast.makeText(this, "No File Found", Toast.LENGTH_SHORT).show();
 
             }
-
-            stream.close();
-
-            MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
-
-            frag.setListAdapter(new SavedListAdapter(getApplicationContext(), mSaveMovie));
-
-        } catch (Exception e){
-
-            e.printStackTrace();
-
-        }
 
     }
 
@@ -126,8 +123,6 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
     @Override
     public void movieDetails(String _name, String _rating, Integer _score, String _scoreName, Integer _year) {
-
-        Log.i (TAG, "Displaying: " + _year.toString());
 
         DetailsFragment frag = DetailsFragment.newInstance(_name, _rating, _score, _scoreName, _year);
         getFragmentManager().beginTransaction().replace(R.id.detail_container, frag, DetailsFragment.TAG).commit();
@@ -159,8 +154,6 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
             }
 
-            Log.i (TAG, "Received Data " + jsonInfo);
-
             JSONObject movieData;
             JSONObject collectedInfo = new JSONObject();
 
@@ -176,8 +169,6 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
                     collectedInfo = mJSONMovieArray.getJSONObject(i);
 
                     mMovieArrray.add(new Movie(collectedInfo));
-
-                    Log.i (TAG, "Hello");
 
                 }
 
@@ -195,7 +186,10 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
         @Override
         protected void onPostExecute(JSONObject collectedInfo){
 
-            JSONObject tempMovieData = new JSONObject();
+            MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
+
+            JSONObject tempMovieData;
+            new JSONObject();
 
             try {
 
@@ -219,8 +213,6 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
                 e.printStackTrace();
 
             }
-
-            MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
 
             frag.setListAdapter(new ListAdapter(getApplicationContext(), mMovieArrray));
 

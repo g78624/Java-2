@@ -14,7 +14,6 @@ public class ListAdapter extends BaseAdapter {
     private static final long CONSTANT_MOVIEID = 0x010101010L;
     private Context mContext;
     private ArrayList<Movie> mMovieArray;
-    private ArrayList<MovieData> mSavedArray;
 
     public ListAdapter (Context _context, ArrayList<Movie> _movieArray){
 

@@ -68,10 +68,10 @@ public class DetailsFragment extends Fragment {
         TextView scoreName = (TextView) getView().findViewById(R.id.movieScoreName);
 
         name.setText(_name);
-        year.setText(_year.toString());
-        rating.setText(_rating);
-        score.setText(_score.toString());
-        scoreName.setText(_scoreName);
+        year.setText("Year Released: " + _year.toString());
+        rating.setText("MPAA Rating: " + _rating);
+        score.setText("Average Critic Score: " + _score.toString());
+        scoreName.setText("Rotten Tomatoes Score: " + _scoreName);
 
     }
 
