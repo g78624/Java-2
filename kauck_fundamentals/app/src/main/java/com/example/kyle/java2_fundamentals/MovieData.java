@@ -1,3 +1,5 @@
+//Kyle Kauck
+
 package com.example.kyle.java2_fundamentals;
 
 import org.json.JSONObject;
@@ -14,6 +16,7 @@ public class MovieData implements Serializable {
     private String mScoreName;
     private Integer mYear;
 
+    //This will parse the saved JSON Data from the File, And also is used to save out the Web API Information to the Save File
     public MovieData (JSONObject tempMovieData){
 
         try {

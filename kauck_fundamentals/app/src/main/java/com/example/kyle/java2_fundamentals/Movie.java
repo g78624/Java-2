@@ -1,3 +1,5 @@
+//Kyle Kauck
+
 package com.example.kyle.java2_fundamentals;
 
 import android.util.Log;
@@ -14,6 +16,7 @@ public class Movie {
     private String mScoreName;
     private Integer mYear;
 
+    //This will parse the information out from the retrieved JSON from Rotten Tomatoes
     public Movie (JSONObject movieData){
 
         try {

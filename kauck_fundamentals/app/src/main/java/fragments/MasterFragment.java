@@ -30,12 +30,14 @@ public class MasterFragment extends ListFragment {
     private apiSearchWord mSearch;
     private dataDetails mData;
 
+    //Interface to allow user to enter a search term
     public interface apiSearchWord {
 
         public void searchWord(String movie);
 
     }
 
+    //Interface to interact and send information to the Detail Fragment
     public interface dataDetails{
 
         public void movieDetails (String _name, String _rating, Integer _score, String _scoreName, Integer _year);
@@ -91,8 +93,7 @@ public class MasterFragment extends ListFragment {
 
         mMovieTitle = (TextView) masterView.findViewById(R.id.movieTitleSearch);
 
-
-
+        //Checks to see if the user is connected to the internet
         if (((MainActivity) getActivity()).networkConnection()) {
 
             Button searchButton = (Button) masterView.findViewById(R.id.searchButton);
@@ -101,6 +102,7 @@ public class MasterFragment extends ListFragment {
                 @Override
                 public void onClick(View v) {
 
+                    //This code will clear our the display fragment when the search button is clicked.
                     FragmentManager manager = getFragmentManager();
                     DetailsFragment frag = (DetailsFragment) manager.findFragmentByTag(DetailsFragment.TAG);
 
@@ -119,6 +121,7 @@ public class MasterFragment extends ListFragment {
                     InputMethodManager hideKeyboard = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     hideKeyboard.hideSoftInputFromWindow(mMovieTitle.getWindowToken(), 0);
 
+                    //Checks to see if the user is connected to the internet and if not will then run either the Async task or try and pull information from the saved file.
                     if (((MainActivity) getActivity()).networkConnection()) {
 
                         Toast.makeText(getActivity(), "You Are Connected To A Network", Toast.LENGTH_SHORT).show();
@@ -153,6 +156,8 @@ public class MasterFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView _l, View _v, int _position, long _id) {
 
+        //This will make the check to see which helper class needs to be used to get the information, if online the Movie helper class will be used and if offline the MovieData
+        // (Serialized Data) helper will be used.
         if (((MainActivity) getActivity()).networkConnection()) {
 
             Movie movie = (Movie) _l.getItemAtPosition(_position);

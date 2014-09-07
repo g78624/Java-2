@@ -22,6 +22,7 @@ public class DetailsFragment extends Fragment {
 
     public static DetailsFragment newInstance(String _name, String _rating, Integer _score, String _scoreName, Integer _year){
 
+        //Create a bundle that will accept arguements and save what has been passed in to the detail fragment with key/value pairs
         DetailsFragment frag = new DetailsFragment();
 
         Bundle args = new Bundle();
@@ -53,6 +54,7 @@ public class DetailsFragment extends Fragment {
 
         if(args != null){
 
+            //This will send in the saved arguements to the display function where they can then be shown to the user.
             setDisplay(args.getString(TITLE), args.getString(RATING), args.getInt(SCORE), args.getString(CRITIC), args.getInt(YEAR));
 
         }

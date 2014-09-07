@@ -46,6 +46,7 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
         if(savedInstanceState == null){
 
+            //Will replace my master container with the master_fragment xml information
             MasterFragment frag = MasterFragment.newInstance();
             getFragmentManager().beginTransaction().replace(R.id.master_container, frag, MasterFragment.TAG).commit();
 
@@ -63,6 +64,7 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
     @Override
     public void searchWord(String movie) {
 
+        //This will build out my URL and then execute the async task on the build URL
         String startingURL = "http://api.rottentomatoes.com/api/public/v1.0/movies.json?apikey=tywc7nbpytk9bygpjumc9y8c&q=";
         String endOfURL = "&page_limit=10";
 
@@ -80,6 +82,8 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
     }
 
+    //this function will be called when there is no network connection that is detected, when no connection is detected a try is called to try and find a save file
+    //if nothing is found the catch is called and will display a toast letting the user know there is no information saved.
     public void noNetworkData(){
 
             try {
@@ -112,6 +116,7 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
     }
 
+    //Called from within the MasterFragment to make network checks
     public boolean networkConnection(){
 
         ConnectivityManager myConnection = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -121,6 +126,7 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
     }
 
+    //This is the interface used to allow the MasterFragment pass information over and into the DetailFragment
     @Override
     public void movieDetails(String _name, String _rating, Integer _score, String _scoreName, Integer _year) {
 
@@ -138,6 +144,7 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
             String jsonInfo = "";
 
+            //Try to see if a valid URL has been given and can be connected to
             for (URL getMovieData : urls){
 
                 try {
@@ -161,6 +168,8 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
                 mMovieArrray.clear();
 
+                //JSONArray is used because of the format the JSON is in, and then looped through and added into a temp JSONObject, that is then passed into a ArrayList to be used to
+                //make the ListView using my custom Adapter
                 movieData = new JSONObject(jsonInfo);
                 mJSONMovieArray = movieData.getJSONArray("movies");
 
@@ -191,6 +200,7 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
             JSONObject tempMovieData;
             new JSONObject();
 
+            //This try will again cycle through the JSONArray and then place the information into a helper class to be parsed and saved to a file.
             try {
 
                 FileOutputStream output = openFileOutput(FILENAME, Context.MODE_PRIVATE);
