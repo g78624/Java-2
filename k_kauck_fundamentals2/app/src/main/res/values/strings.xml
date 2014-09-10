@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Kyle\'s Movie Finder</string>
+    <string name="action_settings">Settings</string>
+    <string name="submitButton">Search Movie</string>
+    <string name="movieHint">Enter A Movie Title Here</string>
+    <color name="metallicSilver">#BCC6CC</color>
+    <color name="darkSlateBlue">#2B3856</color>
+
+</resources>
