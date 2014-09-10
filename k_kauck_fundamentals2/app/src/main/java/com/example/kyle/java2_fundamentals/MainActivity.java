@@ -230,4 +230,25 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle state){
+
+        state.putSerializable("data", mMovieArrray);
+        super.onSaveInstanceState(state);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedState){
+
+        if (savedState != null){
+
+            mMovieArrray = (ArrayList<Movie>) savedState.getSerializable("data");
+            MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
+            frag.setListAdapter(new ListAdapter(getApplicationContext(), mMovieArrray));
+
+        }
+
+    }
+
 }

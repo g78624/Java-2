@@ -6,6 +6,7 @@
     <string name="submitButton">Search Movie</string>
     <string name="movieHint">Enter A Movie Title Here</string>
     <color name="metallicSilver">#BCC6CC</color>
+    <color name="platinum">#E5E4E2</color>
     <color name="darkSlateBlue">#2B3856</color>
 
 </resources>
