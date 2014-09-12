@@ -2,14 +2,21 @@
 
 package com.example.kyle.java2_fundamentals;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
@@ -36,6 +43,7 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
     private ArrayList<MovieData> mSaveMovie = new ArrayList<MovieData>();
     private JSONArray mJSONMovieArray;
     MovieData mMovieData;
+    private static final String DATAPREFERENCE = "PREF_ONLINE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +58,94 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
             MasterFragment frag = MasterFragment.newInstance();
             getFragmentManager().beginTransaction().replace(R.id.master_container, frag, MasterFragment.TAG).commit();
 
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            boolean pref = preferences.getBoolean("PREF_ONLINE", true);
+
+            if (pref == true){
+
+                noNetworkData();
+
+            } else {
+
+                //callForOnline();
+
+            }
+
         }
 
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent newData){
+
+        super.onActivityResult(requestCode, resultCode, newData);
+
+        if (requestCode == 10010){
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            boolean pref = preferences.getBoolean("PREF_ONLINE", true);
+
+            Toast.makeText(this, "This Is Working Fine" + pref, Toast.LENGTH_SHORT).show();
+
+            if (pref == false){
+
+                //noNetworkData();
+                Toast.makeText(this, "This Means You Are Online!", Toast.LENGTH_SHORT).show();
+                MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
+                frag.onlineEnabled();
+
+
+            } else {
+
+                Toast.makeText(this, "This Means You Are Offline!", Toast.LENGTH_SHORT).show();
+                noNetworkData();
+                //MasterFragment frag = MasterFragment.newInstance();
+
+            }
+
+        }
+
+    }
+
+    private void callForOnline(){
+
+        MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
+        frag.onlineEnabled();
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        int id = item.getItemId();
+        if (id == R.id.action_settings){
+
+            Intent newIntent = new Intent();
+            newIntent.setClass(this, PreferencesActivity.class);
+            startActivityForResult(newIntent, 10010);
+
+            return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        //MenuInflater inflater = getMenuInflater();
+        //inflater.inflate(R.menu.main_activity_bar, menu);
+
+        ActionBar getActionBar  = getActionBar();
+        assert getActionBar != null;
+        getActionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F87217")));
+
+        //return super.onCreateOptionsMenu(menu);
+
         return true;
     }
 
@@ -102,6 +190,8 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
                 }
 
                 stream.close();
+
+                mMovieArrray = null;
 
                 MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
 
@@ -233,8 +323,17 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
     @Override
     protected void onSaveInstanceState(Bundle state){
 
-        state.putSerializable("data", mMovieArrray);
-        super.onSaveInstanceState(state);
+        if (mMovieArrray != null) {
+
+            state.putSerializable("data", mMovieArrray);
+            super.onSaveInstanceState(state);
+
+        } else if (mSaveMovie != null){
+
+            state.putSerializable("data", mSaveMovie);
+            super.onSaveInstanceState(state);
+
+        }
 
     }
 
@@ -243,9 +342,19 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
         if (savedState != null){
 
-            mMovieArrray = (ArrayList<Movie>) savedState.getSerializable("data");
-            MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
-            frag.setListAdapter(new ListAdapter(getApplicationContext(), mMovieArrray));
+            if (networkConnection()) {
+
+                mMovieArrray = (ArrayList<Movie>) savedState.getSerializable("data");
+                MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
+                frag.setListAdapter(new ListAdapter(getApplicationContext(), mMovieArrray));
+
+            } else {
+
+                mSaveMovie = (ArrayList<MovieData>) savedState.getSerializable("data");
+                MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
+                frag.setListAdapter(new SavedListAdapter(getApplicationContext(), mSaveMovie));
+
+            }
 
         }
 

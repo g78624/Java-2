@@ -6,13 +6,11 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -88,10 +86,13 @@ public class MasterFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState){
 
         super.onActivityCreated(savedInstanceState);
+
         final View masterView = getView();
         assert masterView != null;
 
-        mMovieTitle = (TextView) masterView.findViewById(R.id.movieTitleSearch);
+        /*mMovieTitle = (TextView) masterView.findViewById(R.id.movieTitleSearch);
+
+        //if (((MainActivity) getActivity()).onActivityResult(int requestCode, int resultCode, Intent newData);
 
         //Checks to see if the user is connected to the internet
         if (((MainActivity) getActivity()).networkConnection()) {
@@ -108,7 +109,7 @@ public class MasterFragment extends ListFragment {
 
                     if (frag == null){
 
-                        Log.i (TAG, "This is null right now!");
+                        Log.i(TAG, "This is null right now!");
 
                     } else {
 
@@ -134,9 +135,9 @@ public class MasterFragment extends ListFragment {
 
                     } else {
 
-                        Toast.makeText(getActivity(), "You Are Not Connected", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "You Are Not Connected", Toast.LENGTH_SHORT).show();
 
-                        ((MainActivity) getActivity()).noNetworkData();
+                        //((MainActivity) getActivity()).noNetworkData();
 
                     }
 
@@ -145,11 +146,52 @@ public class MasterFragment extends ListFragment {
 
         } else {
 
-            Toast.makeText(getActivity(), "You Are Not Connected", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "You Are Not Connected", Toast.LENGTH_SHORT).show();
 
-            ((MainActivity) getActivity()).noNetworkData();
+            //((MainActivity) getActivity()).noNetworkData();
 
-        }
+        }*/
+
+    }
+
+    public void onlineEnabled(){
+
+        final View masterView = getView();
+        assert masterView != null;
+
+        Button searchButton = (Button) masterView.findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //This code will clear our the display fragment when the search button is clicked.
+                FragmentManager manager = getFragmentManager();
+                DetailsFragment frag = (DetailsFragment) manager.findFragmentByTag(DetailsFragment.TAG);
+
+                if (frag == null){
+
+                    Log.i(TAG, "This is null right now!");
+
+                } else {
+
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.remove(frag);
+                    transaction.commit();
+
+                }
+
+                mMovieTitle = (TextView) masterView.findViewById(R.id.movieTitleSearch);
+
+                Toast.makeText(getActivity(), "You Are Connected To A Network", Toast.LENGTH_SHORT).show();
+
+                String movieTitle = mMovieTitle.getText().toString().replace(" ", "+");
+
+                mSearch.searchWord(movieTitle);
+
+                mMovieTitle.setText("");
+
+            }
+        });
 
     }
 

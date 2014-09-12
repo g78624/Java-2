@@ -11,12 +11,22 @@
         android:layout_height="255dp"
         android:layout_gravity="center_horizontal"
         android:id="@+id/master_container"
-        android:background="@color/metallicSilver" />
+        android:background="@color/cream"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/gray">
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/detail_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/platinum" />
+        android:background="@color/cream" >
+
+    </LinearLayout>
 </LinearLayout>

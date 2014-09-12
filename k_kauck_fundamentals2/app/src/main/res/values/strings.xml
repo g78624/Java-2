@@ -7,6 +7,11 @@
     <string name="movieHint">Enter A Movie Title Here</string>
     <color name="metallicSilver">#BCC6CC</color>
     <color name="platinum">#E5E4E2</color>
-    <color name="darkSlateBlue">#2B3856</color>
+    <color name="darkSlateBlue">#43C6DB</color>
+    <color name="gray">#848482</color>
+    <color name="cream">#F5F5DC</color>
+    <string name="clearCache">Clear Cache</string>
+    <string name="files">File Select</string>
+    <string name="prefData">PrefData</string>
 
 </resources>

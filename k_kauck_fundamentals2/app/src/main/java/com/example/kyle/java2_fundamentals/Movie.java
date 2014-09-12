@@ -6,7 +6,9 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
-public class Movie {
+import java.io.Serializable;
+
+public class Movie implements Serializable {
 
     final String TAG = "Movie Class";
 

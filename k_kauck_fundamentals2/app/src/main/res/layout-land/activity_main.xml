@@ -11,7 +11,7 @@
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
         android:id="@+id/master_container"
-        android:background="@color/metallicSilver">
+        android:background="@color/cream">
 
     </LinearLayout>
 
@@ -27,6 +27,6 @@
         android:layout_toEndOf="@+id/master_container"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:background="@color/metallicSilver"/>
+        android:background="@color/cream"/>
 
 </RelativeLayout>
