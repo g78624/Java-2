@@ -220,6 +220,22 @@ public class MasterFragment extends ListFragment {
 
         setListAdapter(null);
 
+        //This code will clear our the display fragment when the search button is clicked.
+        FragmentManager manager = getFragmentManager();
+        DetailsFragment frag = (DetailsFragment) manager.findFragmentByTag(DetailsFragment.TAG);
+
+        if (frag == null){
+
+            Log.i(TAG, "This is null right now!");
+
+        } else {
+
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.remove(frag);
+            transaction.commit();
+
+        }
+
     }
 
 }

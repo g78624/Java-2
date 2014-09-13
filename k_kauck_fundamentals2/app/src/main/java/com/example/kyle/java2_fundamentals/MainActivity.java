@@ -73,7 +73,7 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
             Toast.makeText(this, "This Is Working Fine" + pref, Toast.LENGTH_SHORT).show();
 
-            if (!pref){
+            if (pref == false){
 
                 Toast.makeText(this, "This Means You Are Online!", Toast.LENGTH_SHORT).show();
                 MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
@@ -98,13 +98,13 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean pref = preferences.getBoolean("PREF_ONLINE", true);
 
-        if (pref == true){
+        if (pref == false){
 
-            return true;
+            return false;
 
         } else {
 
-            return false;
+            return true;
 
         }
 
