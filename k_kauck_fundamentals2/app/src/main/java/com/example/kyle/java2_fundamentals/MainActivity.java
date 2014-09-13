@@ -43,7 +43,6 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
     private ArrayList<MovieData> mSaveMovie = new ArrayList<MovieData>();
     private JSONArray mJSONMovieArray;
     MovieData mMovieData;
-    private static final String DATAPREFERENCE = "PREF_ONLINE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,23 +57,9 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
             MasterFragment frag = MasterFragment.newInstance();
             getFragmentManager().beginTransaction().replace(R.id.master_container, frag, MasterFragment.TAG).commit();
 
-            /*SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            boolean pref = preferences.getBoolean("PREF_ONLINE", true);
-
-            if (pref == true){
-
-                noNetworkData();
-
-            } else {
-
-                //callForOnline();
-
-            }*/
-
         }
 
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent newData){
@@ -88,10 +73,11 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
             Toast.makeText(this, "This Is Working Fine" + pref, Toast.LENGTH_SHORT).show();
 
-            if (pref == false){
+            if (!pref){
 
                 Toast.makeText(this, "This Means You Are Online!", Toast.LENGTH_SHORT).show();
                 MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
+                frag.getFreshData();
 
 
             } else {
@@ -106,6 +92,7 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
     }
 
+    //Simple check to see which preference has been selected by the user
     public boolean checkForPref(){
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -145,16 +132,19 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-        //MenuInflater inflater = getMenuInflater();
-        //inflater.inflate(R.menu.main_activity_bar, menu);
-
         ActionBar getActionBar  = getActionBar();
         assert getActionBar != null;
         getActionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F87217")));
 
-        //return super.onCreateOptionsMenu(menu);
-
         return true;
+    }
+
+    public boolean networkConnection(){
+
+        ConnectivityManager myConnection = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo myNetwork = myConnection.getActiveNetworkInfo();
+        return myNetwork != null && myNetwork.isConnectedOrConnecting();
+
     }
 
     @Override
@@ -182,6 +172,10 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
     //if nothing is found the catch is called and will display a toast letting the user know there is no information saved.
     public void noNetworkData(){
 
+        MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
+
+        frag.listViewUpdate();
+
             try {
 
                 FileInputStream input = openFileInput(FILENAME);
@@ -201,8 +195,6 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
                 mMovieArrray = null;
 
-                MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
-
                 frag.setListAdapter(new SavedListAdapter(getApplicationContext(), mSaveMovie));
 
             } catch (Exception e) {
@@ -211,16 +203,6 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
                 Toast.makeText(this, "No File Found", Toast.LENGTH_SHORT).show();
 
             }
-
-    }
-
-    //Called from within the MasterFragment to make network checks
-    public boolean networkConnection(){
-
-        ConnectivityManager myConnection = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo myNetwork = myConnection.getActiveNetworkInfo();
-
-        return myNetwork != null && myNetwork.isConnectedOrConnecting();
 
     }
 

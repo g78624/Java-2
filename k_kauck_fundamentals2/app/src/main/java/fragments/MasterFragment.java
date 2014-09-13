@@ -94,7 +94,7 @@ public class MasterFragment extends ListFragment {
 
         mMovieTitle = (TextView) masterView.findViewById(R.id.movieTitleSearch);
 
-        if (((MainActivity) getActivity()).checkForPref() == false){
+        if (((MainActivity) getActivity()).checkForPref() == false && ((MainActivity) getActivity()).networkConnection()){
 
             Toast.makeText(getActivity(), "You Are Connected To A Network", Toast.LENGTH_SHORT).show();
 
@@ -146,6 +146,55 @@ public class MasterFragment extends ListFragment {
 
     }
 
+    public void getFreshData(){
+
+        final View masterView = getView();
+        assert masterView != null;
+
+        mMovieTitle = (TextView) masterView.findViewById(R.id.movieTitleSearch);
+
+        Toast.makeText(getActivity(), "You Are Connected To A Network", Toast.LENGTH_SHORT).show();
+
+        Button searchButton = (Button) masterView.findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                //This code will clear our the display fragment when the search button is clicked.
+                FragmentManager manager = getFragmentManager();
+                DetailsFragment frag = (DetailsFragment) manager.findFragmentByTag(DetailsFragment.TAG);
+
+                if (frag == null){
+
+                    Log.i(TAG, "This is null right now!");
+
+                } else {
+
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.remove(frag);
+                    transaction.commit();
+
+                }
+
+                InputMethodManager hideKeyboard = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                hideKeyboard.hideSoftInputFromWindow(mMovieTitle.getWindowToken(), 0);
+
+                Toast.makeText(getActivity(), "You Are Connected To A Network", Toast.LENGTH_SHORT).show();
+
+                String movieTitle = mMovieTitle.getText().toString().replace(" ", "+");
+
+                mSearch.searchWord(movieTitle);
+
+                mMovieTitle.setText("");
+
+            }
+
+
+        });
+
+    }
+
     @Override
     public void onListItemClick(ListView _l, View _v, int _position, long _id) {
 
@@ -164,6 +213,12 @@ public class MasterFragment extends ListFragment {
             mData.movieDetails(movieData.getName(), movieData.getRating(), movieData.getScore(), movieData.getScoreName(), movieData.getYear());
 
         }
+
+    }
+
+    public void listViewUpdate(){
+
+        setListAdapter(null);
 
     }
 

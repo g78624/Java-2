@@ -2,19 +2,15 @@
 
 package fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.widget.Toast;
 
-import com.example.kyle.java2_fundamentals.MainActivity;
 import com.example.kyle.java2_fundamentals.PreferencesActivity;
 import com.example.kyle.java2_fundamentals.R;
 
 public class SettingsFragment extends PreferenceFragment {
-
-    private Context context = new MainActivity();
 
     @Override
     public void onCreate (Bundle _savedInstanceState){
@@ -29,8 +25,6 @@ public class SettingsFragment extends PreferenceFragment {
 
         super.onActivityCreated(_savedInstanceState);
 
-
-
         Preference settingClear = findPreference("PREF_DELETE");
         settingClear.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -41,6 +35,7 @@ public class SettingsFragment extends PreferenceFragment {
                 ((PreferencesActivity) getActivity()).deleteCache();
 
                 return true;
+
             }
 
         });
