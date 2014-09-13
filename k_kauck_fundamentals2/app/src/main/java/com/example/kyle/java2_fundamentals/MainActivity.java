@@ -96,7 +96,7 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
     public boolean checkForPref(){
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean pref = preferences.getBoolean("PREF_ONLINE", true);
+        boolean pref = preferences.getBoolean("PREF_ONLINE", false);
 
         if (pref == false){
 
