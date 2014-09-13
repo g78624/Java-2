@@ -58,7 +58,7 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
             MasterFragment frag = MasterFragment.newInstance();
             getFragmentManager().beginTransaction().replace(R.id.master_container, frag, MasterFragment.TAG).commit();
 
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            /*SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             boolean pref = preferences.getBoolean("PREF_ONLINE", true);
 
             if (pref == true){
@@ -69,7 +69,7 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
                 //callForOnline();
 
-            }
+            }*/
 
         }
 
@@ -90,17 +90,15 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
             if (pref == false){
 
-                //noNetworkData();
                 Toast.makeText(this, "This Means You Are Online!", Toast.LENGTH_SHORT).show();
                 MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
-                frag.onlineEnabled();
 
 
             } else {
 
                 Toast.makeText(this, "This Means You Are Offline!", Toast.LENGTH_SHORT).show();
                 noNetworkData();
-                //MasterFragment frag = MasterFragment.newInstance();
+
 
             }
 
@@ -108,10 +106,20 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
     }
 
-    private void callForOnline(){
+    public boolean checkForPref(){
 
-        MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
-        frag.onlineEnabled();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean pref = preferences.getBoolean("PREF_ONLINE", true);
+
+        if (pref == true){
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
 
     }
 
@@ -342,7 +350,7 @@ public class MainActivity extends Activity implements MasterFragment.apiSearchWo
 
         if (savedState != null){
 
-            if (networkConnection()) {
+            if (checkForPref() == false) {
 
                 mMovieArrray = (ArrayList<Movie>) savedState.getSerializable("data");
                 MasterFragment frag = (MasterFragment) getFragmentManager().findFragmentById(R.id.master_container);
