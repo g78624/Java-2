@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">All In One Contacts</string>
+    <string name="action_settings">Settings</string>
+    <string name="nameHint">Please Enter Name</string>
+    <string name="relationshipHint">Please Enter Relationship (Friend, Etc.)</string>
+    <string name="phoneHint">Please Enter Phone Number</string>
+    <string name="birthdayHint">Please Enter Birthday</string>
+    <string name="createContact">Create New Contact</string>
+    
+    <!--Color Codes For App -->
+    <color name="purple">#571B7E</color>
+    <color name="cream">#F5F5DC</color>
+    <color name="orange">#F87217</color>
+    <color name="night">#2C3539</color>
+
+</resources>
