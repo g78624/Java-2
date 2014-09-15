@@ -2,50 +2,56 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/cream">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Krissy"
-        android:id="@+id/textView4"
-        android:textSize="25sp"
+        android:text="Krissy Benjoe"
+        android:id="@+id/detailName"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/purple" />
+        android:textColor="@color/purple"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center_horizontal" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Phone Number: 1-306-555-5555"
-        android:id="@+id/textView3"
+        android:id="@+id/detailPhone"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/night" />
+        android:textColor="@color/night"
+        android:typeface="serif" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Relationship: Girlfriend"
-        android:id="@+id/textView2"
+        android:id="@+id/detailRelationship"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/night" />
+        android:textColor="@color/night"
+        android:typeface="serif" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Birthday: May 23, 1990"
-        android:id="@+id/textView"
+        android:text="Birthday: May 23, 1991"
+        android:id="@+id/detailBirthday"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/night" />
+        android:textColor="@color/night"
+        android:typeface="serif" />
 
 </LinearLayout>

@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">All In One Contacts</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_addContact">Add Contact</string>
     <string name="nameHint">Please Enter Name</string>
     <string name="relationshipHint">Please Enter Relationship (Friend, Etc.)</string>
     <string name="phoneHint">Please Enter Phone Number</string>
