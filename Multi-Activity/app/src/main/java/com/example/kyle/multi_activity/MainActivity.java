@@ -6,15 +6,22 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
+import Data_and_Adapters.Adapter;
+import Data_and_Adapters.DataHelper;
 import Fragments.MainFragment;
 
 
 public class MainActivity extends Activity {
 
     private final int CREATECODE = 102;
+    private ArrayList<DataHelper> mContactDetail = new ArrayList<DataHelper>();
+    DataHelper mData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +71,27 @@ public class MainActivity extends Activity {
 
         Intent create = new Intent(this, CreateView.class);
 
+        create.putExtra("contact_detail", mContactDetail);
+
         startActivityForResult(create, CREATECODE);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CREATECODE && resultCode == RESULT_OK){
+
+            mContactDetail = (ArrayList<DataHelper>) data.getSerializableExtra("contact_detail");
+
+            MainFragment frag = (MainFragment) getFragmentManager().findFragmentById(R.id.main_container);
+            frag.setListAdapter(new Adapter(this, mContactDetail));
+
+            Log.i("Ello", "You set this up right");
+
+        }
 
     }
 }
