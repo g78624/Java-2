@@ -1,3 +1,5 @@
+//Kyle Kauck
+
 package com.example.kyle.multi_activity;
 
 import android.app.ActionBar;
@@ -6,10 +8,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import Data_and_Adapters.Adapter;
@@ -21,6 +24,7 @@ public class MainActivity extends Activity {
 
     private final int CREATECODE = 102;
     private ArrayList<DataHelper> mContactDetail = new ArrayList<DataHelper>();
+    private static final String FILENAME = "contact.txt";
     DataHelper mData;
 
     @Override
@@ -34,6 +38,35 @@ public class MainActivity extends Activity {
             getFragmentManager().beginTransaction().replace(R.id.main_container, frag, MainFragment.TAG).commit();
 
         }
+    }
+
+    //This is called once the fragment has been loaded to load in any of the saved data the user may have
+    public void loadSavedData() {
+
+        MainFragment frag = (MainFragment) getFragmentManager().findFragmentById(R.id.main_container);
+
+        try{
+
+            FileInputStream input = openFileInput(FILENAME);
+            ObjectInputStream stream = new ObjectInputStream(input);
+
+            while (input.available() != 0){
+
+                mData = (DataHelper) stream.readObject();
+                mContactDetail.add(mData);
+
+            }
+
+            stream.close();
+
+            frag.setListAdapter(new Adapter(getApplicationContext(), mContactDetail));
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
     }
 
 
@@ -89,9 +122,13 @@ public class MainActivity extends Activity {
             MainFragment frag = (MainFragment) getFragmentManager().findFragmentById(R.id.main_container);
             frag.setListAdapter(new Adapter(this, mContactDetail));
 
-            Log.i("Ello", "You set this up right");
-
         }
+
+    }
+
+    public ArrayList<DataHelper> getArray(){
+
+        return mContactDetail;
 
     }
 }

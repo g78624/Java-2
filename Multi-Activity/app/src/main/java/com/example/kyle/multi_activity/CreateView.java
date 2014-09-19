@@ -4,14 +4,16 @@ package com.example.kyle.multi_activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import Data_and_Adapters.DataHelper;
@@ -19,7 +21,6 @@ import Fragments.CreateFragment;
 
 public class CreateView extends Activity implements CreateFragment.contactDetails {
 
-    private final int CREATECODE = 102;
     private static final String FILENAME = "contact.txt";
     private ArrayList<DataHelper> mContactDetail = new ArrayList<DataHelper>();
     DataHelper mDataHelper;
@@ -46,8 +47,6 @@ public class CreateView extends Activity implements CreateFragment.contactDetail
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
 
         ActionBar getActionBar = getActionBar();
 
@@ -70,19 +69,47 @@ public class CreateView extends Activity implements CreateFragment.contactDetail
     }
 
     @Override
+    public void onBackPressed() {
+
+        saveContact();
+
+    }
+
+    @Override
     public void details(String _name, String _phone, String _relationship, String _birthday) {
 
         mContactDetail.add(new DataHelper(_name, _phone, _relationship, _birthday));
 
-        Log.i ("Ello", "This is a break point");
-
     }
 
+    //This will save out the updated array with the new entry and then save out the file to local storage
     private void saveContact() {
 
         Intent intent = new Intent();
 
         intent.putExtra("contact_detail", mContactDetail);
+
+        try {
+
+            FileOutputStream output = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            ObjectOutputStream stream = new ObjectOutputStream(output);
+
+            for (int i = 0; i < mContactDetail.size(); i++){
+
+
+                mDataHelper = mContactDetail.get(i);
+
+                stream.writeObject(mDataHelper);
+
+            }
+
+            stream.close();
+
+        } catch (Exception e){
+
+            e.printStackTrace();
+
+        }
 
         setResult(RESULT_OK, intent);
 

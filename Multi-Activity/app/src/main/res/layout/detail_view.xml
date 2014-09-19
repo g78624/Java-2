@@ -54,4 +54,31 @@
         android:textColor="@color/night"
         android:typeface="serif" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/phone"
+        android:id="@+id/call"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/purple" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/delete"
+        android:id="@+id/delete"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/purple"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="20sp" />
+
 </LinearLayout>

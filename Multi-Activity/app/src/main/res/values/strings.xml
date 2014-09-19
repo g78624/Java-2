@@ -8,6 +8,8 @@
     <string name="phoneHint">Please Enter Phone Number</string>
     <string name="birthdayHint">Please Enter Birthday</string>
     <string name="createContact">Create New Contact</string>
+    <string name="delete">Delete Contact</string>
+    <string name="phone">Call Contact</string>
     
     <!--Color Codes For App -->
     <color name="purple">#571B7E</color>
