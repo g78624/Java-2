@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Kyle's News App">
+
+        <CheckBoxPreference
+            android:key="PREF_ONLINE"
+            android:summary="Load Data From Online or Offline, When Selected Data Will Be Loaded From Offline."
+            android:title="Data Loading" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
